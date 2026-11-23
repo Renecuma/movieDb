@@ -1,50 +1,42 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>CounterApp</ion-title>
+    <ion-title>Movies</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>
-        {{ counterName || 'Moje počítadlo' }}
-      </ion-card-title>
-    </ion-card-header>
+<ion-content [fullscreen]="true">
+  @for (row of rows; track row.title) {
+    <section class="movie-row" [class.expanded]="row.expanded()">
+      <h2 class="row-title">{{ row.title }}</h2>
 
-    <ion-card-content>
-      <ion-input
-        label="Název počítadla"
-        label-placement="stacked"
-        fill="outline"
-        placeholder="Například návštěvníci"
-        [(ngModel)]="counterName"
-      ></ion-input>
-
-      <p class="counter-value">{{ count }}</p>
-
-      <div class="counter-actions">
-        <ion-button
-          color="danger"
-          [disabled]="count === 0"
-          (click)="decrement()"
-        >
-          −1
-        </ion-button>
-
-        <ion-button color="primary" (click)="increment()">
-          +1
-        </ion-button>
-
-        <ion-button
-          color="medium"
-          fill="outline"
-          [disabled]="count === 0"
-          (click)="reset()"
-        >
-          Reset
-        </ion-button>
+      <div class="row-scroller" (scroll)="onRowScroll(row, $event)">
+        @for (movie of row.movies(); track movie.id) {
+          <div class="movie-card">
+            <div
+              class="poster"
+              [style.background]="
+                'linear-gradient(160deg, hsl(' + movie.hue + ', 60%, 45%), hsl(' + movie.hue + ', 60%, 20%))'
+              "
+            >
+              <span class="poster-label">#{{ movie.id }}</span>
+            </div>
+            <p class="movie-name">{{ movie.title }}</p>
+          </div>
+        }
       </div>
-    </ion-card-content>
-  </ion-card>
+
+      <ion-button
+        class="toggle-button"
+        shape="round"
+        size="small"
+        (click)="toggleExpanded(row)"
+      >
+        <ion-icon
+          slot="start"
+          [name]="row.expanded() ? 'chevron-up-outline' : 'chevron-down-outline'"
+        ></ion-icon>
+        {{ row.expanded() ? 'Shrink' : 'Expand' }}
+      </ion-button>
+    </section>
+  }
 </ion-content>
