@@ -1,0 +1,75 @@
+.movie-row {
+  position: relative;
+  padding: 1rem 0 0.5rem;
+}
+
+.row-title {
+  margin: 0 1rem 0.75rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.row-scroller {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0 1rem 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+// Expanded: wrap posters into a grid that scrolls down instead of sideways.
+.movie-row.expanded .row-scroller {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  max-height: 70vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-snap-type: none;
+  padding-bottom: 3.5rem; // room so the floating button doesn't cover the last posters
+}
+
+.toggle-button {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+// Collapsed: float the button over the top-right corner, beside the row title.
+.movie-row:not(.expanded) .toggle-button {
+  top: 0.6rem;
+  bottom: auto;
+}
+
+.movie-card {
+  flex: 0 0 7.5rem;
+  scroll-snap-align: start;
+}
+
+.poster {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  aspect-ratio: 2 / 3;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.poster-label {
+  margin: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.movie-name {
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

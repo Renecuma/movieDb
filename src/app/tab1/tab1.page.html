@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Movies</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  @for (row of rows; track row.title) {
+    <section class="movie-row" [class.expanded]="row.expanded()">
+      <h2 class="row-title">{{ row.title }}</h2>
+
+      <div class="row-scroller" (scroll)="onRowScroll(row, $event)">
+        @for (movie of row.movies(); track movie.id) {
+          <div class="movie-card">
+            <div
+              class="poster"
+              [style.background]="
+                'linear-gradient(160deg, hsl(' + movie.hue + ', 60%, 45%), hsl(' + movie.hue + ', 60%, 20%))'
+              "
+            >
+              <span class="poster-label">#{{ movie.id }}</span>
+            </div>
+            <p class="movie-name">{{ movie.title }}</p>
+          </div>
+        }
+      </div>
+
+      <ion-button
+        class="toggle-button"
+        shape="round"
+        size="small"
+        (click)="toggleExpanded(row)"
+      >
+        <ion-icon
+          slot="start"
+          [name]="row.expanded() ? 'chevron-up-outline' : 'chevron-down-outline'"
+        ></ion-icon>
+        {{ row.expanded() ? 'Shrink' : 'Expand' }}
+      </ion-button>
+    </section>
+  }
+</ion-content>
